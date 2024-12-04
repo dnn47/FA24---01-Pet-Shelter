@@ -6,6 +6,7 @@ import UserPage from './pages/User';
 import AnimalsPage from './pages/Animals';
 import ApplicationsPage from './pages/Applications';
 import AnimalViewPage from './pages/AniamalView';
+import ApplicationView from './pages/ApplicationView';
 
 let currentRole = "admin";
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/animals" element={<AnimalsPage role={currentRole} />} />
         <Route path="/applications" element={<ApplicationsPage role={currentRole}/>} />
         <Route path="/animalview" element={<AnimalViewPage/>} />
+        <Route path="/applicationview" element={<ApplicationView role={currentRole}/>} />
       </Routes>
     </>
   );

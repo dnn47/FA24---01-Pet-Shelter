@@ -19,14 +19,14 @@ export default function Applications({role}) {
         case "user":
             return (
                 <>
-                <DataTable data={rows} actionType="View" actionLink="/"/>
+                <DataTable data={rows} actionType="View" actionLink="/applicationview"/>
                 <Button variant="contained" href="#contained-buttons">
                   Submit New Application
                 </Button>
                 </>
               );
         case "admin":
-            return <DataTable data={rows} actionType="Review" actionLink="/"/>
+            return <DataTable data={rows} actionType="Review" actionLink="/applicationview"/>
         default:
           return null;
       }

@@ -17,7 +17,7 @@ const rows = [
 export default function Animals({role}) {
   switch (role) {
     case "user":
-      return <DataTable data={rows} actionType="View"/>
+      return <DataTable data={rows} actionType="View" actionLink="/animalview"/>
     case "admin":
       return (
         <>
