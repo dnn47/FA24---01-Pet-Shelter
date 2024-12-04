@@ -44,14 +44,15 @@ def add_animal():
     data = request.get_json()
     new_animal = Animal(
         shelter_id=data['shelter_id'],
+        name=data['name'],
         birthdate=data['birthdate'],
+        species=data['species'],
         gender=data['gender'],
         special_needs=data['special_needs'],
         is_fixed=data['is_fixed'],
         is_vaccinated=data['is_vaccinated'],
-        is_adopted=data['is_adopted'],
-        img_url=data['img_url'],
-        species=data['species']
+        is_adopted=data.get('is_adopted', False),
+        img_url=data['img_url']
     )
     db.session.add(new_animal)
     db.session.commit()

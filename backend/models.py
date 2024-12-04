@@ -20,6 +20,7 @@ class Animal(db.Model):
 
     animal_id = db.Column(db.Integer, primary_key=True)
     shelter_id = db.Column(db.Integer, db.ForeignKey('shelter.shelter_id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)  # Add this line for the animal name
     birthdate = db.Column(db.Date)
     gender = db.Column(db.String(1))
     special_needs = db.Column(db.Boolean, default=False)
