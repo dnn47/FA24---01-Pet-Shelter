@@ -17,11 +17,11 @@ const rows = [
 export default function Animals({role}) {
   switch (role) {
     case "user":
-      return <DataTable data={rows} actionType="Apply"/>
+      return <DataTable data={rows} actionType="View"/>
     case "admin":
       return (
         <>
-        <DataTable data={rows} actionType="Apply"/>
+        <DataTable data={rows} actionType="View" actionLink="/animalview"/>
         <Button variant="contained" href="#contained-buttons">
           Add Animals
         </Button>

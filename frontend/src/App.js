@@ -5,8 +5,9 @@ import HomePage from './pages/Home';
 import UserPage from './pages/User';
 import AnimalsPage from './pages/Animals';
 import ApplicationsPage from './pages/Applications';
+import AnimalViewPage from './pages/AniamalView';
 
-let currentRole = "user";
+let currentRole = "admin";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/user" element={<UserPage />} />
         <Route path="/animals" element={<AnimalsPage role={currentRole} />} />
         <Route path="/applications" element={<ApplicationsPage role={currentRole}/>} />
+        <Route path="/animalview" element={<AnimalViewPage/>} />
       </Routes>
     </>
   );
