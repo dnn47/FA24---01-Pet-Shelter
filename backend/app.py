@@ -11,8 +11,10 @@ create_session(app)
 
 # Import routes here after initializing the app
 from routes.animals_route import animal_blueprint
+from routes.application_route import application_blueprint
 
 app.register_blueprint(animal_blueprint, url_prefix='/animals')
+app.register_blueprint(application_blueprint, url_prefix='/applications')  
 
 # Example route to test the connection
 @app.route('/')
