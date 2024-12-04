@@ -1,7 +1,9 @@
-import * as React from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import DataTable from '../components/Table';
 import Button from '@mui/material/Button';
 
+// Sample data for the animals table
 function createData(name, shelter, birthday, gender, special_needs, fixed, vaccinated, availability, image) {
   return { name, shelter, birthday, gender, special_needs, fixed, vaccinated, availability, image };
 }
@@ -14,20 +16,29 @@ const rows = [
   createData('Charlie', 'Shelter B', '06/15/2021', 'Male', 'None', 'No', 'Yes', 'Available', 'https://via.placeholder.com/50'),
 ];
 
-export default function Animals({role}) {
-  switch (role) {
-    case "user":
-      return <DataTable data={rows} actionType="View" actionLink="/animalview"/>
-    case "admin":
-      return (
-        <>
-        <DataTable data={rows} actionType="View" actionLink="/animalview"/>
-        <Button variant="contained" href="#contained-buttons">
-          Add Animals
-        </Button>
-        </>
-      );
-    default:
-      return null;
+export default function Animals({ role }) {
+  const navigate = useNavigate();
+
+  if (role === 'user') {
+    // User view: Only view animals
+    return <DataTable data={rows} actionType="View" actionLink="/animalview" />;
   }
+
+  if (role === 'admin') {
+    // Admin view: View animals and add new ones
+    return (
+      <>
+        <DataTable data={rows} actionType="View" actionLink="/animalview" />
+        <Button
+          variant="contained"
+          style={{ marginTop: '1rem' }}
+          onClick={() => navigate('/add-animal-form')} // Navigate to add animal form
+        >
+          Add Animal
+        </Button>
+      </>
+    );
+  }
+
+  return null;
 }
