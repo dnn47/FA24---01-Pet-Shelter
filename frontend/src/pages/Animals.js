@@ -1,18 +1,18 @@
 import * as React from 'react';
 import DataTable from '../components/Table';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(name, shelter, birthday, gender, special_needs, fixed, vaccinated, availability, image) {
+  return { name, shelter, birthday, gender, special_needs, fixed, vaccinated, availability, image };
 }
 
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+  createData('Fluffy', 'Shelter A', '01/01/2020', 'Female', 'None', 'Yes', 'Yes', 'Available', 'https://via.placeholder.com/50'),
+  createData('Sparky', 'Shelter B', '02/14/2019', 'Male', 'None', 'No', 'Yes', 'Adopted', 'https://via.placeholder.com/50'),
+  createData('Bella', 'Shelter A', '12/05/2018', 'Female', 'Allergy', 'Yes', 'No', 'Available', 'https://via.placeholder.com/50'),
+  createData('Max', 'Shelter C', '03/22/2017', 'Male', 'None', 'Yes', 'Yes', 'Adopted', 'https://via.placeholder.com/50'),
+  createData('Charlie', 'Shelter B', '06/15/2021', 'Male', 'None', 'No', 'Yes', 'Available', 'https://via.placeholder.com/50'),
 ];
 
 export default function Animals() {
-  return <DataTable data={rows} />
+  return <DataTable data={rows} actionType="View"/>
 }
