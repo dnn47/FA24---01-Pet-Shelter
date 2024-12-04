@@ -1,32 +1,22 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-
-function UserPage() {
-  return <h1>User Page</h1>;
-}
-
-function AnimalsPage() {
-  return <h1>Animals Page</h1>;
-}
-
-function ApplicationPage() {
-  return <h1>Application Page</h1>;
-}
-
-function HomePage() {
-  return <h1>Welcome to the Home Page</h1>;
-}
+import Navbar from './components/Navbar';
+import HomePage from './pages/Home';
+import UserPage from './pages/User';
+import AnimalsPage from './pages/Animals';
+import ApplicationsPage from './pages/Applications';
 
 function App() {
   return (
-    <div>
+    <>
+      <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/user" element={<UserPage />} />
         <Route path="/animals" element={<AnimalsPage />} />
-        <Route path="/application" element={<ApplicationPage />} />
+        <Route path="/applications" element={<ApplicationsPage />} />
       </Routes>
-    </div>
+    </>
   );
 }
 
