@@ -9,6 +9,7 @@ import AnimalViewPage from './pages/AniamalView';
 import ApplicationView from './pages/ApplicationView';
 import ApplicationForm from './pages/ApplicationForm';
 import Login from './pages/Login';
+import ReviewApplication from './pages/ReviewApplication';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -25,6 +26,7 @@ function App() {
         <Route path="/applications" element={<ApplicationsPage role={currentUser} />} />
         <Route path="/animalview" element={<AnimalViewPage />} />
         <Route path="/applicationview" element={<ApplicationView role={currentUser} />} />
+        <Route path="/review-application" element={<ReviewApplication />} />
       </Routes>
     </>
   );
