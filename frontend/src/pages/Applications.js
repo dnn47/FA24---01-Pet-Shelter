@@ -1,5 +1,6 @@
 import * as React from 'react';
 import DataTable from '../components/Table';
+import Button from '@mui/material/Button';
 
 function createData(application_id, animal_id, user_id, submit_date, review_date) {
     return { application_id, animal_id, user_id, submit_date, review_date };
@@ -13,6 +14,21 @@ function createData(application_id, animal_id, user_id, submit_date, review_date
     createData('A127', 'Charlie', 'User5', '2024-11-24', '2024-11-25'),
   ];  
 
-export default function Applications() {
-  return <DataTable data={rows} actionType="Review" />;
+export default function Applications({role}) {
+    switch (role) {
+        case "user":
+            return (
+                <>
+                <DataTable data={rows} actionType="View"/>
+                <Button variant="contained" href="#contained-buttons">
+                  Submit New Application
+                </Button>
+                </>
+              );
+        case "admin":
+            return <DataTable data={rows} actionType="Review" />
+        default:
+          return null;
+      }
+  
 }

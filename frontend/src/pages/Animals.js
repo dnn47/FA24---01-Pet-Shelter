@@ -1,5 +1,6 @@
 import * as React from 'react';
 import DataTable from '../components/Table';
+import Button from '@mui/material/Button';
 
 function createData(name, shelter, birthday, gender, special_needs, fixed, vaccinated, availability, image) {
   return { name, shelter, birthday, gender, special_needs, fixed, vaccinated, availability, image };
@@ -13,6 +14,20 @@ const rows = [
   createData('Charlie', 'Shelter B', '06/15/2021', 'Male', 'None', 'No', 'Yes', 'Available', 'https://via.placeholder.com/50'),
 ];
 
-export default function Animals() {
-  return <DataTable data={rows} actionType="Apply"/>
+export default function Animals({role}) {
+  switch (role) {
+    case "user":
+      return <DataTable data={rows} actionType="Apply"/>
+    case "admin":
+      return (
+        <>
+        <DataTable data={rows} actionType="Apply"/>
+        <Button variant="contained" href="#contained-buttons">
+          Add Animals
+        </Button>
+        </>
+      );
+    default:
+      return null;
+  }
 }

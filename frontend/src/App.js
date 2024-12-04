@@ -1,10 +1,12 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import Navbar from './components/NavBar';
 import HomePage from './pages/Home';
 import UserPage from './pages/User';
 import AnimalsPage from './pages/Animals';
 import ApplicationsPage from './pages/Applications';
+
+let currentRole = "user";
 
 function App() {
   return (
@@ -13,8 +15,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/user" element={<UserPage />} />
-        <Route path="/animals" element={<AnimalsPage />} />
-        <Route path="/applications" element={<ApplicationsPage />} />
+        <Route path="/animals" element={<AnimalsPage role={currentRole} />} />
+        <Route path="/applications" element={<ApplicationsPage role={currentRole}/>} />
       </Routes>
     </>
   );
