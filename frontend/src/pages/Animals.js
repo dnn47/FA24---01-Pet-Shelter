@@ -14,5 +14,5 @@ const rows = [
 ];
 
 export default function Animals() {
-  return <DataTable data={rows} actionType="View"/>
+  return <DataTable data={rows} actionType="Apply"/>
 }
