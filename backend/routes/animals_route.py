@@ -9,6 +9,7 @@ animal_blueprint = Blueprint('animal', __name__)
 def get_all_animals():
     animals = Animal.query.all()
     return jsonify([{
+        "name": a.name,
         "animal_id": a.animal_id,
         "shelter_id": a.shelter_id,
         "birthdate": a.birthdate.isoformat() if a.birthdate else None,
@@ -21,11 +22,33 @@ def get_all_animals():
         "species": a.species
     } for a in animals])
 
+@animal_blueprint.route("/<int:animal_id>", methods=["GET"])
+def get_animal_by_id(animal_id):  # Rename the function for clarity
+    animal = Animal.query.get(animal_id)  # Fetch a single animal by its primary key
+    if not animal:
+        return jsonify({"error": "Animal not found"}), 404
+
+    # Return the animal's details as JSON
+    return jsonify({
+        "name": animal.name,
+        "animal_id": animal.animal_id,
+        "shelter_id": animal.shelter_id,
+        "birthdate": animal.birthdate.isoformat() if animal.birthdate else None,
+        "gender": animal.gender,
+        "special_needs": animal.special_needs,
+        "is_fixed": animal.is_fixed,
+        "is_vaccinated": animal.is_vaccinated,
+        "is_adopted": animal.is_adopted,
+        "img_url": animal.img_url,
+        "species": animal.species
+    })
+
 # 2. Get all available animals (ADMIN/USER)
 @animal_blueprint.route("/available", methods=["GET"])
 def get_available_animals():
     animals = Animal.query.filter_by(is_adopted=False).all()
     return jsonify([{
+        "name": a.name,
         "animal_id": a.animal_id,
         "shelter_id": a.shelter_id,
         "birthdate": a.birthdate.isoformat() if a.birthdate else None,
@@ -63,6 +86,7 @@ def add_animal():
 def get_animals_by_shelter(shelter_name):
     animals = db.session.query(Animal).join(Shelter).filter(Shelter.shelter_name == shelter_name).all()
     return jsonify([{
+        "name": a.name,
         "animal_id": a.animal_id,
         "shelter_id": a.shelter_id,
         "birthdate": a.birthdate.isoformat() if a.birthdate else None,
@@ -80,6 +104,7 @@ def get_animals_by_shelter(shelter_name):
 def get_animals_by_species(species):
     animals = Animal.query.filter_by(species=species).all()
     return jsonify([{
+        "name": a.name,
         "animal_id": a.animal_id,
         "shelter_id": a.shelter_id,
         "birthdate": a.birthdate.isoformat() if a.birthdate else None,
