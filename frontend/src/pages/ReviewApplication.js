@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { reviewApplication } from '../api/applicationsApi'; // Import API call
 
 function ReviewApplication() {
   const location = useLocation();
@@ -8,13 +9,13 @@ function ReviewApplication() {
 
   const handleApprove = () => {
     console.log(`Approved Application: ${data.application_id}`);
-    // API call to approve the application
+    reviewApplication(data.application_id, "Approved");
     navigate('/applications'); // Redirect to applications after action
   };
 
   const handleDeny = () => {
     console.log(`Denied Application: ${data.application_id}`);
-    // API call to deny the application
+    reviewApplication(data.application_id, "Rejected");
     navigate('/applications'); // Redirect to applications after action
   };
 
