@@ -32,18 +32,22 @@ class Animal(db.Model):
 
     shelter = db.relationship('Shelter', back_populates='animals')
 
-class Users(db.Model):  
+class User(db.Model):
     __tablename__ = 'users'
 
     user_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), nullable=False, unique=True)
-    email = db.Column(db.String(100), nullable=False, unique=True)
-    password = db.Column(db.String(255), nullable=False) 
+    email = db.Column(db.String(255), unique=True, nullable=False)
+    age = db.Column(db.Integer)
+    address = db.Column(db.String(255))
+    phone_number = db.Column(db.String(15))
+    gender = db.Column(db.String(10))
+    last_name = db.Column(db.String(128))
+    first_name = db.Column(db.String(128))
 
     applications = db.relationship('Application', back_populates='user')
 
     def __repr__(self):
-        return f"<User {self.username}>"
+        return f"<User {self.first_name} {self.last_name}>"
 
 class Application(db.Model):
     __tablename__ = 'application'
@@ -57,7 +61,7 @@ class Application(db.Model):
 
     form = db.relationship('Form', back_populates='application', uselist=False) 
     animal = db.relationship('Animal', backref='applications')
-    user = db.relationship('Users', back_populates='applications')
+    user = db.relationship('User', back_populates='applications')
 
 class Form(db.Model):
     __tablename__ = 'form'
