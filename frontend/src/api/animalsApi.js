@@ -22,4 +22,14 @@ export const getAvailableAnimals = async () => {
   }
 };
 
+export const getAnimalById = async (animalId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/animals/${animalId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching animals:', error);
+    throw error;
+  }
+};
+
 // Add more functions for other endpoints as needed

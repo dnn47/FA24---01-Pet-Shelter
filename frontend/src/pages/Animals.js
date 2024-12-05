@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
-import { getAllAnimals } from '../api/animalsApi'; // Import API call
+import { getAllAnimals, getAnimalById } from '../api/animalsApi'; // Import API call
 
 export default function Animals({ role }) {
   const navigate = useNavigate();
@@ -13,21 +13,18 @@ export default function Animals({ role }) {
     const fetchAnimals = async () => {
       try {
         const rawData = await getAllAnimals(); // Fetch raw data from the backend
-        console.log(rawData)
-        // Format the raw data into the structure needed for the DataGrid
-        const formattedData = rawData.map((animal, index) => ({
-          id: index, // Use index as unique key for rows
+        const formattedData = rawData.map((animal) => ({
+          id: animal.animal_id, // Use animal_id as the unique key
           name: animal.name,
           shelter: `Shelter ${animal.shelter_id}`,
           birthday: animal.birthdate,
           gender: animal.gender,
-          special_needs: animal.special_needs,
+          special_needs: animal.special_needs ? 'Yes' : 'No',
           fixed: animal.is_fixed ? 'Yes' : 'No',
           vaccinated: animal.is_vaccinated ? 'Yes' : 'No',
           availability: animal.is_adopted ? 'Adopted' : 'Available',
           image: animal.img_url,
         }));
-        console.log(formattedData)
         setAnimals(formattedData);
       } catch (error) {
         console.error('Failed to fetch animals:', error);
@@ -36,6 +33,18 @@ export default function Animals({ role }) {
 
     fetchAnimals();
   }, []);
+
+  const handleViewClick = async (animalId) => {
+    console.log(animalId)
+    try {
+      const animal = await getAnimalById(animalId); // Fetch animal by ID
+      console.log('Animal details:', animal);
+      // Navigate to the animal view page and pass the animal details or ID
+      navigate('/animalview', { state: { animal } });
+    } catch (error) {
+      console.error('Failed to fetch animal by ID:', error);
+    }
+  };
 
   const columns = [
     { field: 'name', headerName: 'Name', width: 150 },
@@ -62,16 +71,16 @@ export default function Animals({ role }) {
       field: 'action',
       headerName: 'Action',
       width: 150,
-      renderCell: () => (
+      renderCell: (params) => (
         <Button
           variant="contained"
           size="small"
-          onClick={() => navigate('/animalview')}
+          onClick={() => handleViewClick(params.row.animal_id)} // Pass the row data
         >
           View
         </Button>
       ),
-    },
+    },    
   ];
 
   return (
