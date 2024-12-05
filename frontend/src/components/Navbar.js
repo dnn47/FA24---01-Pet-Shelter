@@ -1,22 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({ currentUser }) => {
+  const location = useLocation();
+
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'User', path: '/user' },
+    { name: 'Animals', path: '/animals' },
+    { name: 'Applications', path: '/applications' },
+    { name: 'Logout', path: '/login' },
+  ];
+
   return (
     <nav style={styles.navbar}>
       <ul style={styles.navList}>
-        <li style={styles.navItem}>
-          <Link to="/" style={styles.navLink}>Home</Link>
-        </li>
-        <li style={styles.navItem}>
-          <Link to="/user" style={styles.navLink}>User</Link>
-        </li>
-        <li style={styles.navItem}>
-          <Link to="/animals" style={styles.navLink}>Animals</Link>
-        </li>
-        <li style={styles.navItem}>
-          <Link to="/applications" style={styles.navLink}>Applications</Link>
-        </li>
+        {navItems.map((item) => (
+          <li
+            key={item.name}
+            style={{
+              ...styles.navItem,
+              ...(location.pathname === item.path && styles.activeNavItem),
+            }}
+          >
+            <Link to={item.path} style={styles.navLink}>
+              {item.name}
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );
@@ -32,9 +43,13 @@ const styles = {
     listStyleType: 'none',
     margin: 0,
     padding: 0,
+    justifyContent: 'space-around',
   },
   navItem: {
     marginRight: '1.5rem',
+  },
+  activeNavItem: {
+    textDecoration: 'underline',
   },
   navLink: {
     color: '#fff',
