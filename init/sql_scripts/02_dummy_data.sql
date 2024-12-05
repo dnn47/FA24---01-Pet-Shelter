@@ -6,21 +6,21 @@ INSERT INTO Shelter (shelter_name, location, phone_number, rating, contact) VALU
 ('Cozy Paws Shelter', '101 Birch Ln', '555-555-0101', 4.2, 'cozy@pawsshelter.org');
 
 INSERT INTO Animal (shelter_id, name, birthdate, species, gender, special_needs, is_fixed, is_vaccinated, is_adopted, img_url) VALUES
-(1, 'Max', '2020-05-15', 'Dog', 'Male', FALSE, TRUE, TRUE, FALSE, 'https://example.com/dog1.jpg'),
-(2, 'Whiskers', '2019-11-01', 'Cat', 'Female', TRUE, TRUE, TRUE, TRUE, 'https://example.com/cat1.jpg'),
-(1, 'Thumper', '2021-03-20', 'Rabbit', 'Male', FALSE, FALSE, TRUE, FALSE, 'https://example.com/rabbit1.jpg'),
-(2, 'Bella', '2022-07-10', 'Dog', 'Female', TRUE, TRUE, TRUE, FALSE, 'https://example.com/dog2.jpg'),
-(1, 'Sunny', '2021-09-05', 'Bird', 'Male', FALSE, FALSE, TRUE, FALSE, 'https://example.com/bird1.jpg'),
-(3, 'Luna', '2022-01-15', 'Cat', 'Female', TRUE, TRUE, TRUE, FALSE, 'https://example.com/cat2.jpg'),
-(4, 'Rocky', '2020-06-10', 'Dog', 'Male', FALSE, TRUE, FALSE, FALSE, 'https://example.com/dog3.jpg'),
-(3, 'Shelly', '2021-04-18', 'Turtle', 'Female', FALSE, FALSE, FALSE, FALSE, 'https://example.com/turtle1.jpg'),
-(1, 'BunBun', '2018-11-30', 'Rabbit', 'Male', TRUE, TRUE, TRUE, TRUE, 'https://example.com/rabbit2.jpg'),
-(4, 'Sadie', '2019-02-14', 'Dog', 'Female', FALSE, TRUE, TRUE, FALSE, 'https://example.com/dog4.jpg'),
-(4, 'Milo', '2020-12-12', 'Cat', 'Male', TRUE, FALSE, FALSE, FALSE, 'https://example.com/cat3.jpg'),
-(3, 'Polly', '2023-01-22', 'Parrot', 'Female', FALSE, FALSE, TRUE, FALSE, 'https://example.com/parrot1.jpg'),
-(2, 'Buddy', '2017-07-05', 'Dog', 'Male', FALSE, TRUE, TRUE, TRUE, 'https://example.com/dog5.jpg'),
-(1, 'Ginger', '2022-03-15', 'Guinea Pig', 'Female', FALSE, TRUE, TRUE, FALSE, 'https://example.com/guinea1.jpg'),
-(4, 'Cleo', '2021-11-07', 'Cat', 'Female', FALSE, FALSE, TRUE, FALSE, 'https://example.com/cat4.jpg');
+(1, 'Max', '2020-05-15', 'Dog', 'Male', FALSE, TRUE, TRUE, FALSE, 'https://placedog.net/640/480?id=5'),
+(2, 'Whiskers', '2019-11-01', 'Cat', 'Female', TRUE, TRUE, TRUE, TRUE, 'https://placecats.com/millie/300/200'),
+(1, 'Thumper', '2021-03-20', 'Cat', 'Male', FALSE, FALSE, TRUE, FALSE, 'https://placecats.com/neo/300/200'),
+(2, 'Bella', '2022-07-10', 'Dog', 'Female', TRUE, TRUE, TRUE, FALSE, 'https://placedog.net/640/480?id=6'),
+(1, 'Sunny', '2021-09-05', 'Dog', 'Male', FALSE, FALSE, TRUE, FALSE, 'https://placedog.net/640/480?id=10'),
+(3, 'Luna', '2022-01-15', 'Cat', 'Female', TRUE, TRUE, TRUE, FALSE, 'https://placecats.com/neo_banana/300/200'),
+(4, 'Rocky', '2020-06-10', 'Dog', 'Male', FALSE, TRUE, FALSE, FALSE, 'https://placedog.net/640/480?id=12'),
+(3, 'Shelly', '2021-04-18', 'Cat', 'Female', FALSE, FALSE, FALSE, FALSE, 'https://placecats.com/bella/300/200'),
+(1, 'BunBun', '2018-11-30', 'Dog', 'Male', TRUE, TRUE, TRUE, TRUE, 'https://placedog.net/640/480?id=15'),
+(4, 'Sadie', '2019-02-14', 'Dog', 'Female', FALSE, TRUE, TRUE, FALSE, 'https://placedog.net/640/480?id=17'),
+(4, 'Milo', '2020-12-12', 'Cat', 'Male', TRUE, FALSE, FALSE, FALSE, 'https://placecats.com/poppy/300/200'),
+(3, 'Polly', '2023-01-22', 'Cat', 'Female', FALSE, FALSE, TRUE, FALSE, 'https://placecats.com/neo_2/300/200'),
+(2, 'Buddy', '2017-07-05', 'Dog', 'Male', FALSE, TRUE, TRUE, TRUE, 'https://placedog.net/640/480?id=19'),
+(1, 'Ginger', '2022-03-15', 'Dog', 'Female', FALSE, TRUE, TRUE, FALSE, 'https://placedog.net/640/480?id=14'),
+(4, 'Cleo', '2021-11-07', 'Cat', 'Female', FALSE, FALSE, TRUE, FALSE, 'https://placecats.com/louie/300/200');
 
 INSERT INTO Users (email, age, address, phone_number, gender, last_name, first_name) VALUES
 ('johndoe@example.com', 28, '101 Elm St', '555-444-1234', 'Male', 'Doe', 'John'),

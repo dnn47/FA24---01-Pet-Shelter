@@ -25,14 +25,8 @@ app.register_blueprint(user_blueprint, url_prefix='/user')
 
 # Example route to test the connection
 @app.route('/')
-def index():
-    try:
-        from db import get_connection  # Import connection function inside the function
-        engine = get_connection()
-        connection = engine.connect()  # This establishes the connection
-        return "Database connection successful!"
-    except Exception as ex:
-        return f"Error connecting to database: {ex}"
+def home():
+    return "Hello, Flask!"
 
 if __name__ == '__main__':
     app.run(debug=True)
