@@ -24,30 +24,67 @@ const getAllUsers = async () => {
   }
 };
 
-export default function Users() {
+// API call to fetch a single user by ID
+const getUserById = async (id) => {
+  try {
+    const response = await fetch(`http://localhost:5001/user/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+    throw error;
+  }
+};
+
+export default function Users({ role }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch users on component load
+  // Fetch users based on role
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchData = async () => {
       try {
-        const rawData = await getAllUsers(); // Fetch raw data from the backend
-
-        // Format the raw data into the structure needed for the DataGrid
-        const formattedData = rawData.map((user, index) => ({
-          id: user.user_id, // Use user_id as unique key for rows
-          firstName: user.first_name,
-          lastName: user.last_name,
-          email: user.email,
-          age: user.age,
-          address: user.address,
-          phoneNumber: user.phone_number,
-          gender: user.gender,
-        }));
-
-        setUsers(formattedData);
+        if (role === 'admin') {
+          // Admin can view all users
+          const rawData = await getAllUsers();
+          const formattedData = rawData.map((user) => ({
+            id: user.user_id, // Use user_id as unique key for rows
+            firstName: user.first_name,
+            lastName: user.last_name,
+            email: user.email,
+            age: user.age,
+            address: user.address,
+            phoneNumber: user.phone_number,
+            gender: user.gender,
+          }));
+          setUsers(formattedData);
+        } else if (role === 'user') {
+          // Regular user sees only their own data
+          const userData = await getUserById(1); // Hardcoded user_id 1
+          setUsers([
+            {
+              id: userData.user_id,
+              firstName: userData.first_name,
+              lastName: userData.last_name,
+              email: userData.email,
+              age: userData.age,
+              address: userData.address,
+              phoneNumber: userData.phone_number,
+              gender: userData.gender,
+            },
+          ]);
+        }
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -55,8 +92,8 @@ export default function Users() {
       }
     };
 
-    fetchUsers();
-  }, []);
+    fetchData();
+  }, [role]);
 
   const columns = [
     { field: 'firstName', headerName: 'First Name', width: 150 },
@@ -66,20 +103,6 @@ export default function Users() {
     { field: 'address', headerName: 'Address', width: 250 },
     { field: 'phoneNumber', headerName: 'Phone Number', width: 150 },
     { field: 'gender', headerName: 'Gender', width: 100 },
-    {
-      field: 'action',
-      headerName: 'Action',
-      width: 150,
-      renderCell: (params) => (
-        <Button
-          variant="contained"
-          size="small"
-          onClick={() => console.log(`Viewing details for ${params.row.id}`)}
-        >
-          View
-        </Button>
-      ),
-    },
   ];
 
   if (loading) {
@@ -100,13 +123,15 @@ export default function Users() {
         rowsPerPageOptions={[5, 10]}
         disableSelectionOnClick
       />
-      <Button
-        variant="contained"
-        style={{ marginTop: '1rem' }}
-        onClick={() => window.location.reload()}
-      >
-        Refresh
-      </Button>
+      {role === 'admin' && (
+        <Button
+          variant="contained"
+          style={{ marginTop: '1rem' }}
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </Button>
+      )}
     </div>
   );
 }
