@@ -1,10 +1,13 @@
-# app.py
 from flask import Flask
+from flask_cors import CORS  # Import CORS
 from config import Config
 from db import create_session  # Import db initialization after creating the app
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# Enable CORS for all domains
+CORS(app)
 
 # Initialize the database session
 create_session(app)
