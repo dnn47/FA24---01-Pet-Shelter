@@ -9,6 +9,7 @@ const Navbar = ({ currentUser }) => {
     { name: 'User', path: '/user' },
     { name: 'Animals', path: '/animals' },
     { name: 'Applications', path: '/applications' },
+    { name: 'Logout', path: '/login' },
   ];
 
   return (
