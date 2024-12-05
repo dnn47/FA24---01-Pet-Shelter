@@ -19,6 +19,7 @@ export default function Animals({ role }) {
           shelter: `Shelter ${animal.shelter_id}`,
           birthday: animal.birthdate,
           gender: animal.gender,
+          species: animal.species,
           special_needs: animal.special_needs ? 'Yes' : 'No',
           fixed: animal.is_fixed ? 'Yes' : 'No',
           vaccinated: animal.is_vaccinated ? 'Yes' : 'No',
@@ -37,10 +38,22 @@ export default function Animals({ role }) {
   const handleViewClick = async (animalId) => {
     console.log(animalId)
     try {
-      const animal = await getAnimalById(animalId); // Fetch animal by ID
-      console.log('Animal details:', animal);
+      const rawData = await getAnimalById(animalId); // Fetch animal by ID
+      const formattedData = {
+        id: rawData.animal_id, // Use animal_id as the unique key
+        name: rawData.name,
+        shelter: `Shelter ${rawData.shelter_id}`,
+        birthday: rawData.birthdate,
+        gender: rawData.gender,
+        species: rawData.species,
+        special_needs: rawData.special_needs ? 'Yes' : 'No',
+        fixed: rawData.is_fixed ? 'Yes' : 'No',
+        vaccinated: rawData.is_vaccinated ? 'Yes' : 'No',
+        availability: rawData.is_adopted ? 'Adopted' : 'Available',
+        image: rawData.img_url,
+      };
       // Navigate to the animal view page and pass the animal details or ID
-      navigate('/animalview', { state: { animal } });
+      navigate('/animalview', { state: { formattedData } });
     } catch (error) {
       console.error('Failed to fetch animal by ID:', error);
     }
@@ -51,6 +64,7 @@ export default function Animals({ role }) {
     { field: 'shelter', headerName: 'Shelter', width: 150 },
     { field: 'birthday', headerName: 'Birthday', width: 150 },
     { field: 'gender', headerName: 'Gender', width: 100 },
+    { field: 'species', headerName: 'Species', width: 100},
     { field: 'special_needs', headerName: 'Special Needs', width: 150 },
     { field: 'fixed', headerName: 'Fixed', width: 100 },
     { field: 'vaccinated', headerName: 'Vaccinated', width: 150 },
@@ -75,7 +89,7 @@ export default function Animals({ role }) {
         <Button
           variant="contained"
           size="small"
-          onClick={() => handleViewClick(params.row.animal_id)} // Pass the row data
+          onClick={() => handleViewClick(params.row.id)} // Pass the row data
         >
           View
         </Button>
