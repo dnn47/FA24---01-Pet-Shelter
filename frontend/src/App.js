@@ -22,7 +22,7 @@ function App() {
         <Route path="/login" element={<Login setCurrentUser={setCurrentUser} />} />
         <Route path="/application-form" element={<ApplicationForm />} />
         <Route path="/" element={<HomePage />} />
-        <Route path="/user" element={<UserPage />} />
+        <Route path="/user" element={<UserPage role={currentUser} />} />
         <Route path="/animals" element={<AnimalsPage role={currentUser} />} />
         <Route path="/applications" element={<ApplicationsPage role={currentUser} />} />
         <Route path="/animalview" element={<AnimalViewPage />} />
