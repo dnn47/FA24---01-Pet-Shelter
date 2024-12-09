@@ -13,13 +13,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { getAllAnimals, getAnimalById, addAnimal, removeAnimal } from '../api/animalsApi';
 import { getFormByUser} from '../api/formApi';
-import { submitApplication } from '../api/applicationsApi';
+import { submitApplication, getApplicationsByUser  } from '../api/applicationsApi';
 
 export default function Animals({ role }) {
   const navigate = useNavigate();
   const [animals, setAnimals] = useState([]);
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [failAppSubmittedDialog, setFailAppSubmittedDialog] = useState(false);
+  const [sucAppSubmittedDialog, setSucAppSubmittedDialog] = useState(false);
   const [newAnimal, setNewAnimal] = useState({
     name: '',
     shelter_id: 1,
@@ -136,12 +138,12 @@ export default function Animals({ role }) {
     {
       field: 'image',
       headerName: 'Image',
-      width: 100,
+      width: 250,
       renderCell: (params) => (
         <img
           src={params.value}
           alt="Animal"
-          style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+          style={{ width: '250px', height: '250px', objectFit: 'cover' }}
         />
       ),
     },
@@ -150,7 +152,7 @@ export default function Animals({ role }) {
       headerName: 'Action',
       width: 250,
       renderCell: (params) => (
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <Button
             variant="contained"
             size="small"
@@ -170,11 +172,18 @@ export default function Animals({ role }) {
                   if (form === null) {
                     setOpenDialog(true);
                   } else {
-                    submitApplication({
-                      user_id: 1,
-                      form_id: formId,
-                      animal_id: params.row.id,
-                    });
+                    const userApps = await getApplicationsByUser(1); 
+                    const isAlrSubmitted = userApps.some(item => item.animal_id === params.row.id);
+                    if (isAlrSubmitted) {
+                      setFailAppSubmittedDialog(true);
+                    } else {
+                      submitApplication({
+                        user_id: 1,
+                        form_id: formId,
+                        animal_id: params.row.id,
+                      });
+                      setSucAppSubmittedDialog(true);
+                    }
                   }
                 } catch (error) {
                   console.error('Error fetching form:', error);
@@ -210,6 +219,30 @@ export default function Animals({ role }) {
               </Button>
             </DialogActions>
           </Dialog>
+
+          <Dialog open={failAppSubmittedDialog} onClose={() => setFailAppSubmittedDialog(false)}>
+            <DialogTitle>Application Already Submitted</DialogTitle>
+            <DialogContent>
+              <p>You have already submitted an application for this animal.</p>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setFailAppSubmittedDialog(false)} color="secondary">
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <Dialog open={sucAppSubmittedDialog} onClose={() => setSucAppSubmittedDialog(false)}>
+            <DialogTitle>Application Submitted!</DialogTitle>
+            <DialogContent>
+              <p>Application successully submitted!</p>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setSucAppSubmittedDialog(false)} color="secondary">
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       ),
     },    
@@ -230,13 +263,14 @@ export default function Animals({ role }) {
   };
 
   return (
-    <div style={{ height: 600, width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '80vh' }}>
       <DataGrid
         rows={animals}
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[5, 10, 20]}
         disableSelectionOnClick
+        rowHeight={250}
       />
       {role === 'admin' && (
         <Button
