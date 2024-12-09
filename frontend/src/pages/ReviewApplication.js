@@ -1,11 +1,12 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Box, Typography, Card, CardContent, Grid, Button } from '@mui/material';
 import { reviewApplication } from '../api/applicationsApi'; // Import API call
 
 function ReviewApplication() {
   const location = useLocation();
   const navigate = useNavigate();
-  const data = JSON.parse(new URLSearchParams(location.search).get('data'));
+  const data = JSON.parse(new URLSearchParams(location.search).get('data')) || {};
 
   const handleApprove = () => {
     console.log(`Approved Application: ${data.application_id}`);
@@ -19,57 +20,61 @@ function ReviewApplication() {
     navigate('/applications'); // Redirect to applications after action
   };
 
+  if (!Object.keys(data).length) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <Typography variant="h5" color="textSecondary">
+          No application data available.
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
-    <div style={styles.container}>
-      <h1>Application Review</h1>
-      <pre style={styles.details}>{JSON.stringify(data, null, 2)}</pre>
-      <div style={styles.actions}>
-        <button style={styles.approveButton} onClick={handleApprove}>
-          Approve :)
-        </button>
-        <button style={styles.denyButton} onClick={handleDeny}>
-          DENY!
-        </button>
-      </div>
-    </div>
+    <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh" padding={3}>
+      <Card sx={{ maxWidth: 600, width: '100%', boxShadow: 3 }}>
+        <CardContent>
+          <Typography variant="h4" component="div" gutterBottom>
+            Application Review
+          </Typography>
+          <Grid container spacing={2}>
+            {Object.entries(data).map(([key, value]) => (
+              <Grid item xs={12} sm={6} key={key}>
+                <Typography variant="body1" color="textSecondary">
+                  <strong>{formatKey(key)}:</strong> {value || 'N/A'}
+                </Typography>
+              </Grid>
+            ))}
+          </Grid>
+        </CardContent>
+        <Box display="flex" justifyContent="space-around" padding={2}>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleApprove}
+            sx={{ padding: '0.5rem 2rem' }}
+          >
+            Approve
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleDeny}
+            sx={{ padding: '0.5rem 2rem' }}
+          >
+            Deny
+          </Button>
+        </Box>
+      </Card>
+    </Box>
   );
 }
 
-const styles = {
-  container: {
-    maxWidth: '600px',
-    margin: '0 auto',
-    padding: '1rem',
-    textAlign: 'center',
-  },
-  details: {
-    textAlign: 'left',
-    backgroundColor: '#f9f9f9',
-    padding: '1rem',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-  },
-  actions: {
-    marginTop: '1rem',
-    display: 'flex',
-    justifyContent: 'space-around',
-  },
-  approveButton: {
-    padding: '0.5rem 1rem',
-    backgroundColor: '#28a745',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  denyButton: {
-    padding: '0.5rem 1rem',
-    backgroundColor: '#dc3545',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-};
+// Helper function to format keys into a user-friendly format
+function formatKey(key) {
+  return key
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
 
 export default ReviewApplication;
