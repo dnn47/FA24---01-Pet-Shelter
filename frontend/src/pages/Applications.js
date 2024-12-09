@@ -88,7 +88,7 @@ export default function Applications({ role }) {
           style={{ marginTop: '1rem' }}
           onClick={() => navigate('/application-form')} // Navigate to the form to submit a new application
         >
-          Submit New Application
+          Submit/Update Form
         </Button>
       </>
     );
