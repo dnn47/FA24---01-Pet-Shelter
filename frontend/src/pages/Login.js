@@ -10,11 +10,16 @@ function Login({ setCurrentUser }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      const data = new URLSearchParams();
+      data.append('email', username);
+      data.append('password', password);
+
       const response = await fetch('http://localhost:5001/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: JSON.stringify({ email: username, password }),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: data.toString(), // Pass URL-encoded string here
       });
+
 
       if (response.ok) {
         const user = await response.json();
