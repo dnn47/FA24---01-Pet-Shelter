@@ -138,12 +138,12 @@ export default function Animals({ role }) {
     {
       field: 'image',
       headerName: 'Image',
-      width: 100,
+      width: 250,
       renderCell: (params) => (
         <img
           src={params.value}
           alt="Animal"
-          style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+          style={{ width: '250px', height: '250px', objectFit: 'cover' }}
         />
       ),
     },
@@ -152,7 +152,7 @@ export default function Animals({ role }) {
       headerName: 'Action',
       width: 250,
       renderCell: (params) => (
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <Button
             variant="contained"
             size="small"
@@ -263,13 +263,14 @@ export default function Animals({ role }) {
   };
 
   return (
-    <div style={{ height: 600, width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '80vh' }}>
       <DataGrid
         rows={animals}
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[5, 10, 20]}
         disableSelectionOnClick
+        rowHeight={250}
       />
       {role === 'admin' && (
         <Button

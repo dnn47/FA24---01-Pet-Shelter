@@ -17,7 +17,7 @@ function AnimalView() {
   }
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" padding={3}>
+    <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh" padding={3}>
       <Card sx={{ maxWidth: 600, width: '100%', boxShadow: 3 }}>
         <CardMedia
           component="img"
