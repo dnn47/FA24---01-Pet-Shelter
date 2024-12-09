@@ -62,7 +62,7 @@ def get_available_animals():
     } for a in animals])
 
 # 3. Add a new animal (ADMIN)
-@animal_blueprint.route("/", methods=["POST"])
+@animal_blueprint.route("", methods=["POST"])
 def add_animal():
     data = request.get_json()
     new_animal = Animal(
@@ -80,6 +80,16 @@ def add_animal():
     db.session.add(new_animal)
     db.session.commit()
     return jsonify({"message": "Animal added successfully", "animal_id": new_animal.animal_id}), 201
+
+# 4. Remove an animal (ADMIN)
+@animal_blueprint.route("/<int:animal_id>", methods=["DELETE"])
+def remove_animal(animal_id):
+    animal = Animal.query.get(animal_id)
+    if not animal:
+        return jsonify({"error": "Animal not found"}), 404
+    db.session.delete(animal)
+    db.session.commit()
+    return jsonify({"message": "Animal removed successfully"}), 200
 
 # 4. Get animals from shelter name (ADMIN/USER)
 @animal_blueprint.route("/shelter/<string:shelter_name>", methods=["GET"])
