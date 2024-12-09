@@ -33,20 +33,9 @@ CREATE TABLE Users (
     first_name VARCHAR(128)
 );
 
-CREATE TABLE Application (
-    application_id SERIAL PRIMARY KEY,
-    animal_id INTEGER,
-    user_id INTEGER,
-    status VARCHAR(50),
-    submit_date DATE CHECK (submit_date <= CURRENT_DATE),
-    review_date DATE CHECK (review_date >= submit_date),
-    FOREIGN KEY (animal_id) REFERENCES Animal(animal_id),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
-);
-
 CREATE TABLE Form (
     form_id SERIAL PRIMARY KEY,
-    application_id INTEGER,
+    user_id INTEGER,
     credit_score INT CHECK (credit_score >= 0 AND credit_score <= 800),
     household_num INT,
     net_income DECIMAL(12, 2),
@@ -54,5 +43,18 @@ CREATE TABLE Form (
     preexisting_pets BOOLEAN,
     landlord_contact VARCHAR(100),
     is_allergic BOOLEAN,
-    FOREIGN KEY (application_id) REFERENCES Application(application_id)
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+CREATE TABLE Application (
+    application_id SERIAL PRIMARY KEY,
+    animal_id INTEGER,
+    user_id INTEGER,
+    form_id INTEGER,
+    status VARCHAR(50),
+    submit_date DATE CHECK (submit_date <= CURRENT_DATE),
+    review_date DATE CHECK (review_date >= submit_date),
+    FOREIGN KEY (animal_id) REFERENCES Animal(animal_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (form_id) REFERENCES Form(form_id)
 );

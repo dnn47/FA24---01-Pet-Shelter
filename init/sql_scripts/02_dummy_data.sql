@@ -29,20 +29,21 @@ INSERT INTO Users (email, age, address, phone_number, gender, last_name, first_n
 ('mikebrown@example.com', 40, '404 Cedar Ct', '555-666-7788', 'Male', 'Brown', 'Mike'),
 ('sarawhite@example.com', 29, '505 Aspen Pl', '555-777-8899', 'Female', 'White', 'Sara');
 
-INSERT INTO Application (animal_id, user_id, status, submit_date, review_date) VALUES
-(1, 1, 'Pending', '2024-11-15', NULL),
-(2, 2, 'Approved', '2024-11-10', '2024-11-12'),
-(3, 3, 'Rejected', '2024-11-08', '2024-11-10'),
-(4, 1, 'Pending', '2024-11-18', NULL),
-(5, 4, 'Approved', '2024-11-12', '2024-11-15'),
-(6, 5, 'Pending', '2024-11-18', NULL),
-(7, 2, 'Rejected', '2024-11-14', '2024-11-16');
-
-INSERT INTO Form (application_id, credit_score, household_num, net_income, home_type, preexisting_pets, landlord_contact, is_allergic) VALUES
+INSERT INTO Form (user_id, credit_score, household_num, net_income, home_type, preexisting_pets, landlord_contact, is_allergic) VALUES
 (1, 720, 4, 60000.00, 'Apartment', TRUE, 'landlord1@example.com', FALSE),
 (2, 650, 2, 45000.00, 'House', FALSE, 'landlord2@example.com', TRUE),
 (3, 800, 1, 75000.00, 'Condo', FALSE, NULL, FALSE),
-(4, 580, 3, 40000.00, 'Townhouse', TRUE, 'landlord3@example.com', TRUE),
-(5, 700, 2, 55000.00, 'House', TRUE, 'landlord4@example.com', FALSE),
-(6, 600, 1, 30000.00, 'Apartment', FALSE, NULL, TRUE),
-(7, 780, 5, 80000.00, 'Condo', FALSE, 'landlord5@example.com', FALSE);
+(1, 580, 3, 40000.00, 'Townhouse', TRUE, 'landlord3@example.com', TRUE),
+(4, 700, 2, 55000.00, 'House', TRUE, 'landlord4@example.com', FALSE),
+(5, 600, 1, 30000.00, 'Apartment', FALSE, NULL, TRUE),
+(2, 780, 5, 80000.00, 'Condo', FALSE, 'landlord5@example.com', FALSE);
+
+INSERT INTO Application (animal_id, user_id, form_id, status, submit_date, review_date) VALUES
+(1, 1, 1, 'Pending', '2024-11-15', NULL),
+(2, 2, 2, 'Approved', '2024-11-10', '2024-11-12'),
+(3, 3, 3, 'Rejected', '2024-11-08', '2024-11-10'),
+(4, 1, 4, 'Pending', '2024-11-18', NULL),
+(5, 4, 5, 'Approved', '2024-11-12', '2024-11-15'),
+(6, 5, 6, 'Pending', '2024-11-18', NULL),
+(7, 2, 7, 'Rejected', '2024-11-14', '2024-11-16');
+
