@@ -20,7 +20,8 @@ export default function Animals({ role }) {
   const [animals, setAnimals] = useState([]);
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [appSubmittedDialog, setAppSubmittedDialog] = useState(false);
+  const [failAppSubmittedDialog, setFailAppSubmittedDialog] = useState(false);
+  const [sucAppSubmittedDialog, setSucAppSubmittedDialog] = useState(false);
   const [newAnimal, setNewAnimal] = useState({
     name: '',
     shelter_id: 1,
@@ -174,13 +175,14 @@ export default function Animals({ role }) {
                     const userApps = await getApplicationsByUser(1); 
                     const isAlrSubmitted = userApps.some(item => item.animal_id === params.row.id);
                     if (isAlrSubmitted) {
-                      setAppSubmittedDialog(true);
+                      setFailAppSubmittedDialog(true);
                     } else {
                       submitApplication({
                         user_id: 1,
                         form_id: formId,
                         animal_id: params.row.id,
                       });
+                      setSucAppSubmittedDialog(true);
                     }
                   }
                 } catch (error) {
@@ -218,13 +220,25 @@ export default function Animals({ role }) {
             </DialogActions>
           </Dialog>
 
-          <Dialog open={appSubmittedDialog} onClose={() => setAppSubmittedDialog(false)}>
+          <Dialog open={failAppSubmittedDialog} onClose={() => setFailAppSubmittedDialog(false)}>
             <DialogTitle>Application Already Submitted</DialogTitle>
             <DialogContent>
               <p>You have already submitted an application for this animal.</p>
             </DialogContent>
             <DialogActions>
-              <Button onClick={() => setAppSubmittedDialog(false)} color="secondary">
+              <Button onClick={() => setFailAppSubmittedDialog(false)} color="secondary">
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <Dialog open={sucAppSubmittedDialog} onClose={() => setSucAppSubmittedDialog(false)}>
+            <DialogTitle>Application Submitted!</DialogTitle>
+            <DialogContent>
+              <p>Application successully submitted!</p>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setSucAppSubmittedDialog(false)} color="secondary">
                 Close
               </Button>
             </DialogActions>
