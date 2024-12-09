@@ -15,15 +15,16 @@ function Login({ setCurrentUser }) {
       data.append('password', password);
 
       const response = await fetch('http://localhost:5001/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: data.toString(), // Pass URL-encoded string here
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: data.toString(),
       });
-
 
       if (response.ok) {
         const user = await response.json();
-        setCurrentUser(user);
+        const userRole = user.is_admin ? 'admin' : 'user';
+        setCurrentUser(userRole);
+        localStorage.setItem('currentUser', JSON.stringify(userRole)); // Save to local storage
         navigate('/');
       } else {
         setError('Invalid email or password');
