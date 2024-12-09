@@ -22,12 +22,13 @@ INSERT INTO Animal (shelter_id, name, birthdate, species, gender, special_needs,
 (1, 'Ginger', '2022-03-15', 'Dog', 'Female', FALSE, TRUE, TRUE, FALSE, 'https://placedog.net/640/480?id=14'),
 (4, 'Cleo', '2021-11-07', 'Cat', 'Female', FALSE, FALSE, TRUE, FALSE, 'https://placecats.com/louie/300/200');
 
-INSERT INTO Users (email, age, address, phone_number, gender, last_name, first_name) VALUES
-('johndoe@example.com', 28, '101 Elm St', '555-444-1234', 'Male', 'Doe', 'John'),
-('janedoe@example.com', 32, '202 Pine St', '555-333-5678', 'Female', 'Doe', 'Jane'),
-('alexsmith@example.com', 24, '303 Birch St', '555-222-9012', 'Non-Binary', 'Smith', 'Alex'),
-('mikebrown@example.com', 40, '404 Cedar Ct', '555-666-7788', 'Male', 'Brown', 'Mike'),
-('sarawhite@example.com', 29, '505 Aspen Pl', '555-777-8899', 'Female', 'White', 'Sara');
+INSERT INTO Users (email, password, isAdmin, age, address, phone_number, gender, last_name, first_name) VALUES
+('admin', '123', TRUE, 28, '101 Elm St', '555-444-1234', 'Male', 'admin', 'admin'),
+('johndoe@example.com', 'password', FALSE, 28, '101 Elm St', '555-444-1234', 'Male', 'Doe', 'John'),
+('janedoe@example.com', 'password', FALSE, 32, '202 Pine St', '555-333-5678', 'Female', 'Doe', 'Jane'),
+('alexsmith@example.com', 'password', FALSE, 24, '303 Birch St', '555-222-9012', 'Non-Binary', 'Smith', 'Alex'),
+('mikebrown@example.com', 'password', FALSE, 40, '404 Cedar Ct', '555-666-7788', 'Male', 'Brown', 'Mike'),
+('sarawhite@example.com', 'password', FALSE, 29, '505 Aspen Pl', '555-777-8899', 'Female', 'White', 'Sara');
 
 INSERT INTO Form (user_id, credit_score, household_num, net_income, home_type, preexisting_pets, landlord_contact, is_allergic) VALUES
 (1, 720, 4, 60000.00, 'Apartment', TRUE, 'landlord1@example.com', FALSE),

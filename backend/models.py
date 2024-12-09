@@ -37,6 +37,8 @@ class User(db.Model):
 
     user_id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True, nullable=False)
+    password = db.Column(db.String(50), nullable=False)
+    isadmin = db.Column(db.Boolean, default=False)
     age = db.Column(db.Integer)
     address = db.Column(db.String(255))
     phone_number = db.Column(db.String(15))
@@ -45,6 +47,7 @@ class User(db.Model):
     first_name = db.Column(db.String(128))
 
     applications = db.relationship('Application', back_populates='user')
+    forms = db.relationship('Form', back_populates='user') 
 
     def __repr__(self):
         return f"<User {self.first_name} {self.last_name}>"
@@ -53,13 +56,14 @@ class Application(db.Model):
     __tablename__ = 'application'
 
     application_id = db.Column(db.Integer, primary_key=True)
+    form_id = db.Column(db.Integer, db.ForeignKey('form.form_id'), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     animal_id = db.Column(db.Integer, db.ForeignKey('animal.animal_id'), nullable=False)
     status = db.Column(db.String(50), nullable=False, default="Pending") 
     submit_date = db.Column(db.Date, nullable=False)
     review_date = db.Column(db.Date, nullable=True)
 
-    form = db.relationship('Form', back_populates='application', uselist=False) 
+    form = db.relationship('Form', back_populates='applications', uselist=False) 
     animal = db.relationship('Animal', backref='applications')
     user = db.relationship('User', back_populates='applications')
 
@@ -67,7 +71,7 @@ class Form(db.Model):
     __tablename__ = 'form'
 
     form_id = db.Column(db.Integer, primary_key=True)
-    application_id = db.Column(db.Integer, db.ForeignKey('application.application_id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     home_type = db.Column(db.String(50), nullable=True)  
     net_income = db.Column(db.Integer, nullable=True) 
     household_num = db.Column(db.Integer, nullable=True)  
@@ -76,7 +80,8 @@ class Form(db.Model):
     landlord_contact = db.Column(db.String(20), nullable=True)  
     preexisting_pets = db.Column(db.Integer, nullable=True) 
 
-    application = db.relationship('Application', back_populates='form')
+    applications = db.relationship('Application', back_populates='form')
+    user = db.relationship('User', back_populates='forms')
 
     def __repr__(self):
         return f"<Form {self.form_id}>"
