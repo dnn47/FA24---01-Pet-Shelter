@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HomePage from './pages/Home';
@@ -15,11 +15,24 @@ import AddAnimalForm from './pages/AddAnimalForm';
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
 
+  // Load currentUser from local storage on app load
+  useEffect(() => {
+    const storedUser = localStorage.getItem('currentUser');
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const updateCurrentUser = (user) => {
+    setCurrentUser(user);
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  };
+
   return (
     <>
       <Navbar currentUser={currentUser} />
       <Routes>
-        <Route path="/login" element={<Login setCurrentUser={setCurrentUser} />} />
+        <Route path="/login" element={<Login setCurrentUser={updateCurrentUser} />} />
         <Route path="/application-form" element={<ApplicationForm />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/user" element={<UserPage role={currentUser} />} />

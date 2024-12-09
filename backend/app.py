@@ -5,6 +5,7 @@ from db import create_session  # Import db initialization after creating the app
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.secret_key = "secret" 
 
 # Enable CORS for all domains
 CORS(app)
@@ -18,12 +19,14 @@ from routes.animals_route import animal_blueprint
 from routes.application_route import application_blueprint
 from routes.form_route import form_blueprint
 from routes.user_route import user_blueprint
+from routes.login_route import login_blueprint
 
 app.register_blueprint(animal_blueprint, url_prefix='/animals')
 app.register_blueprint(application_blueprint, url_prefix='/applications')  
 app.register_blueprint(form_blueprint, url_prefix='/form')  
 app.register_blueprint(shelter_blueprint, url_prefix='/shelter')
 app.register_blueprint(user_blueprint, url_prefix='/user')
+app.register_blueprint(login_blueprint, url_prefix='/login')
 
 # Example route to test the connection
 @app.route('/')

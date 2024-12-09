@@ -25,6 +25,8 @@ CREATE TABLE Animal (
 CREATE TABLE Users (
     user_id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    isAdmin BOOLEAN,
     age INT,
     address VARCHAR(255),
     phone_number VARCHAR(15),
