@@ -32,4 +32,26 @@ export const getAnimalById = async (animalId) => {
   }
 };
 
+// Add a new animal
+export const addAnimal = async (animalData) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/animals`, animalData);
+    return response.data;
+  } catch (error) {
+    console.error('Error adding animal:', error);
+    throw error;
+  }
+};
+
+// Remove an animal
+export const removeAnimal = async (animalId) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/animals/${animalId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error removing animal:', error);
+    throw error;
+  }
+};
+
 // Add more functions for other endpoints as needed
