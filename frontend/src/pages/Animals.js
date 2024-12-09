@@ -7,12 +7,17 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 import { getAllAnimals, getAnimalById, addAnimal, removeAnimal } from '../api/animalsApi';
 
 export default function Animals({ role }) {
   const navigate = useNavigate();
   const [animals, setAnimals] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const [newAnimal, setNewAnimal] = useState({
     name: '',
     shelter_id: 1,
@@ -141,9 +146,9 @@ export default function Animals({ role }) {
     {
       field: 'action',
       headerName: 'Action',
-      width: 200,
+      width: 250,
       renderCell: (params) => (
-        <>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
           <Button
             variant="contained"
             size="small"
@@ -151,18 +156,48 @@ export default function Animals({ role }) {
           >
             View
           </Button>
-          {role === 'admin' && (
+          {params.row.availability === 'Available' && (
             <Button
               variant="contained"
+              color="secondary"
               size="small"
-              color="error"
-              style={{ marginLeft: '10px' }}
-              onClick={() => handleRemoveAnimal(params.row.id)}
+              onClick={async () => {
+                try {
+                  const form = await getFormByUser(1);
+                  const formId = form[0]?.form_id;
+                  if (form === null) {
+                    setOpenDialog(true);
+                  } else {
+                    submitApplication({
+                      user_id: 1,
+                      form_id: formId,
+                      animal_id: params.row.id,
+                    });
+                  }
+                } catch (error) {
+                  console.error('Error fetching form:', error);
+                }
+              }}
             >
-              Delete
+              Apply for Adoption
             </Button>
           )}
-        </>
+          {/* Dialog Popup */}
+          <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+            <DialogTitle>Complete Your Application</DialogTitle>
+            <DialogContent>
+              <p>You need to fill out a form in the Application tab before applying to adopt a pet.</p>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => navigate('/application-tab')} color="primary">
+                Go to Application Tab
+              </Button>
+              <Button onClick={() => setOpenDialog(false)} color="secondary">
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
       ),
     },
   ];
@@ -223,7 +258,6 @@ export default function Animals({ role }) {
           >
             <MenuItem value="Dog">Dog</MenuItem>
             <MenuItem value="Cat">Cat</MenuItem>
-            {/* Add more species */}
           </Select>
           <Select
             label="Gender"

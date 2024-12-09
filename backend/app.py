@@ -16,10 +16,12 @@ create_session(app)
 from routes.shelter_route import shelter_blueprint
 from routes.animals_route import animal_blueprint
 from routes.application_route import application_blueprint
+from routes.form_route import form_blueprint
 from routes.user_route import user_blueprint
 
 app.register_blueprint(animal_blueprint, url_prefix='/animals')
 app.register_blueprint(application_blueprint, url_prefix='/applications')  
+app.register_blueprint(form_blueprint, url_prefix='/form')  
 app.register_blueprint(shelter_blueprint, url_prefix='/shelter')
 app.register_blueprint(user_blueprint, url_prefix='/user')
 
