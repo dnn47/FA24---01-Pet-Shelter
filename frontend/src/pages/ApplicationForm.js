@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
+import { submitForm } from '../api/formApi';
 
-const ApplicationForm = () => {
+const Form = () => {
   const [formData, setFormData] = useState({
-    applicationId: '',
-    creditScore: '',
-    householdNum: '',
-    netIncome: '',
-    homeType: '',
-    preexistingPets: false,
-    landlordContact: '',
-    isAllergic: false,
+    user_id: 1,
+    credit_score: '',
+    household_num: '',
+    net_income: '',
+    home_type: '',
+    preexisting_pets: false,
+    landlord_contact: '',
+    is_allergic: false,
   });
 
   const handleChange = (e) => {
@@ -22,58 +23,36 @@ const ApplicationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting Application:', formData);
+    console.log('Submitting Form:', formData);
 
-    // Placeholder for backend integration
     try {
-      const response = await fetch('https://api.example.com/applications', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      const response = await submitForm(formData);
 
-      if (!response.ok) {
-        throw new Error('Failed to submit application');
-      }
-
-      const result = await response.json();
-      console.log('Application submitted:', result);
-
-      // Clear the form
+      // Reset the form data after submission
       setFormData({
-        applicationId: '',
-        creditScore: '',
-        householdNum: '',
-        netIncome: '',
-        homeType: '',
-        preexistingPets: false,
-        landlordContact: '',
-        isAllergic: false,
+        user_id: 1,
+        credit_score: '',
+        household_num: '',
+        net_income: '',
+        home_type: '',
+        preexisting_pets: false,
+        landlord_contact: '',
+        is_allergic: false,
       });
     } catch (error) {
-      console.error('Error submitting application:', error);
+      console.error('Error submitting form:', error);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} style={styles.form}>
-      <h1>Submit Application</h1>
-      <label>
-        Application ID:
-        <input
-          type="text"
-          name="applicationId"
-          value={formData.applicationId}
-          onChange={handleChange}
-          required
-        />
-      </label>
+      <h1>Submit Form</h1>
       <label>
         Credit Score:
         <input
           type="number"
-          name="creditScore"
-          value={formData.creditScore}
+          name="credit_score"
+          value={formData.credit_score}
           onChange={handleChange}
           required
         />
@@ -82,8 +61,8 @@ const ApplicationForm = () => {
         Household Members:
         <input
           type="number"
-          name="householdNum"
-          value={formData.householdNum}
+          name="household_num"
+          value={formData.household_num}
           onChange={handleChange}
         />
       </label>
@@ -91,8 +70,8 @@ const ApplicationForm = () => {
         Net Income:
         <input
           type="number"
-          name="netIncome"
-          value={formData.netIncome}
+          name="net_income"
+          value={formData.net_income}
           onChange={handleChange}
           required
         />
@@ -101,8 +80,8 @@ const ApplicationForm = () => {
         Home Type:
         <input
           type="text"
-          name="homeType"
-          value={formData.homeType}
+          name="home_type"
+          value={formData.home_type}
           onChange={handleChange}
         />
       </label>
@@ -110,8 +89,8 @@ const ApplicationForm = () => {
         Preexisting Pets:
         <input
           type="checkbox"
-          name="preexistingPets"
-          checked={formData.preexistingPets}
+          name="preexisting_pets"
+          checked={formData.preexisting_pets}
           onChange={handleChange}
         />
       </label>
@@ -119,8 +98,8 @@ const ApplicationForm = () => {
         Landlord Contact:
         <input
           type="text"
-          name="landlordContact"
-          value={formData.landlordContact}
+          name="landlord_contact"
+          value={formData.landlord_contact}
           onChange={handleChange}
         />
       </label>
@@ -128,8 +107,8 @@ const ApplicationForm = () => {
         Allergic:
         <input
           type="checkbox"
-          name="isAllergic"
-          checked={formData.isAllergic}
+          name="is_allergic"
+          checked={formData.is_allergic}
           onChange={handleChange}
         />
       </label>
@@ -159,4 +138,4 @@ const styles = {
   },
 };
 
-export default ApplicationForm;
+export default Form;

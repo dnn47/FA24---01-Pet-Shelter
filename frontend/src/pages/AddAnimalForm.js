@@ -26,7 +26,6 @@ const AddAnimalForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Submitting Animal:', formData);
 
     // Placeholder for backend API integration
     try {
