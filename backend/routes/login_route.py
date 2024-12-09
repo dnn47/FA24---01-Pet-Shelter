@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, session, Blueprint
+from flask import jsonify, request, redirect, url_for, session, Blueprint
 from models import User
 
 login_blueprint = Blueprint('login', __name__)
@@ -13,7 +13,12 @@ def login():
 
         if user and user.password == password:
             session["user_id"] = user.user_id
-            return redirect(url_for('home'))
+            session["admin"] = user.isadmin
+            return jsonify({
+                "message": "Login successful",
+                "user_id": user.user_id,
+                "is_admin": user.isadmin
+            }), 200
         
         return "Invalid email or password", 401
 
