@@ -17,16 +17,16 @@ function App() {
 
   return (
     <>
-      <Navbar currentUser={currentUser} />
+      <Navbar currentUser={currentUser} onLogout={() => setCurrentUser(null)} />
       <Routes>
         <Route path="/login" element={<Login setCurrentUser={setCurrentUser} />} />
         <Route path="/application-form" element={<ApplicationForm />} />
         <Route path="/" element={<HomePage />} />
-        <Route path="/user" element={<UserPage role={currentUser} />} />
-        <Route path="/animals" element={<AnimalsPage role={currentUser} />} />
-        <Route path="/applications" element={<ApplicationsPage role={currentUser} />} />
+        <Route path="/user" element={<UserPage role={currentUser?.role} />} />
+        <Route path="/animals" element={<AnimalsPage role={currentUser?.role} />} />
+        <Route path="/applications" element={<ApplicationsPage role={currentUser?.role} />} />
         <Route path="/animalview" element={<AnimalViewPage />} />
-        <Route path="/applicationview" element={<ApplicationView role={currentUser} />} />
+        <Route path="/applicationview" element={<ApplicationView role={currentUser?.role} />} />
         <Route path="/review-application" element={<ReviewApplication />} />
         <Route path="/add-animal-form" element={<AddAnimalForm />} />
       </Routes>

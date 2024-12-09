@@ -3,7 +3,7 @@ from models import User
 
 login_blueprint = Blueprint('login', __name__)
 
-@login_blueprint.route("/", methods=["GET", "POST"])
+@login_blueprint.route("", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         email = request.form["email"]

@@ -7,16 +7,25 @@ function Login({ setCurrentUser }) {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (username === 'user' && password === 'password') {
-      setCurrentUser('user');
-      navigate('/');
-    } else if (username === 'admin' && password === 'password') {
-      setCurrentUser('admin');
-      navigate('/');
-    } else {
-      setError('Invalid username or password');
+    try {
+      const response = await fetch('http://localhost:5001/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: JSON.stringify({ email: username, password }),
+      });
+
+      if (response.ok) {
+        const user = await response.json();
+        setCurrentUser(user);
+        navigate('/');
+      } else {
+        setError('Invalid email or password');
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+      setError('Something went wrong');
     }
   };
 
