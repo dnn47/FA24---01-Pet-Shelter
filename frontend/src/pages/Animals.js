@@ -13,13 +13,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { getAllAnimals, getAnimalById, addAnimal, removeAnimal } from '../api/animalsApi';
 import { getFormByUser} from '../api/formApi';
-import { submitApplication } from '../api/applicationsApi';
+import { submitApplication, getApplicationsByUser  } from '../api/applicationsApi';
 
 export default function Animals({ role }) {
   const navigate = useNavigate();
   const [animals, setAnimals] = useState([]);
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [appSubmittedDialog, setAppSubmittedDialog] = useState(false);
   const [newAnimal, setNewAnimal] = useState({
     name: '',
     shelter_id: 1,
@@ -170,11 +171,17 @@ export default function Animals({ role }) {
                   if (form === null) {
                     setOpenDialog(true);
                   } else {
-                    submitApplication({
-                      user_id: 1,
-                      form_id: formId,
-                      animal_id: params.row.id,
-                    });
+                    const userApps = await getApplicationsByUser(1); 
+                    const isAlrSubmitted = userApps.some(item => item.animal_id === params.row.id);
+                    if (isAlrSubmitted) {
+                      setAppSubmittedDialog(true);
+                    } else {
+                      submitApplication({
+                        user_id: 1,
+                        form_id: formId,
+                        animal_id: params.row.id,
+                      });
+                    }
                   }
                 } catch (error) {
                   console.error('Error fetching form:', error);
@@ -206,6 +213,18 @@ export default function Animals({ role }) {
                 Go to Application Tab
               </Button>
               <Button onClick={() => setOpenDialog(false)} color="secondary">
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <Dialog open={appSubmittedDialog} onClose={() => setAppSubmittedDialog(false)}>
+            <DialogTitle>Application Already Submitted</DialogTitle>
+            <DialogContent>
+              <p>You have already submitted an application for this animal.</p>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setAppSubmittedDialog(false)} color="secondary">
                 Close
               </Button>
             </DialogActions>
