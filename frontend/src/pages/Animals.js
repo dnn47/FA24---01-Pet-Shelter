@@ -12,6 +12,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { getAllAnimals, getAnimalById, addAnimal, removeAnimal } from '../api/animalsApi';
+import { getFormByUser} from '../api/formApi';
+import { submitApplication } from '../api/applicationsApi';
 
 export default function Animals({ role }) {
   const navigate = useNavigate();
@@ -156,7 +158,7 @@ export default function Animals({ role }) {
           >
             View
           </Button>
-          {params.row.availability === 'Available' && (
+          {params.row.availability === 'Available' && role === 'user' && (
             <Button
               variant="contained"
               color="secondary"
@@ -182,6 +184,17 @@ export default function Animals({ role }) {
               Apply for Adoption
             </Button>
           )}
+          {role === 'admin' && (
+            <Button
+              variant="contained"
+              size="small"
+              color="error"
+              style={{ marginLeft: '10px' }}
+              onClick={() => handleRemoveAnimal(params.row.id)}
+            >
+              Delete
+            </Button>
+          )}
           {/* Dialog Popup */}
           <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
             <DialogTitle>Complete Your Application</DialogTitle>
@@ -199,7 +212,7 @@ export default function Animals({ role }) {
           </Dialog>
         </div>
       ),
-    },
+    },    
   ];
 
   const modalStyle = {
@@ -237,20 +250,20 @@ export default function Animals({ role }) {
       <Modal open={open} onClose={handleClose}>
         <Box sx={modalStyle}>
           <h2>Add New Animal</h2>
+          <label>Name</label>
           <TextField
-            label="Name"
             name="name"
             fullWidth
             onChange={handleInputChange}
           />
+          <label>Birthdate</label>
           <TextField
-            label="Birthdate"
             name="birthdate"
             fullWidth
             onChange={handleInputChange}
           />
+          <label>Species</label>
           <Select
-            label="Species"
             name="species"
             fullWidth
             value={newAnimal.species}
@@ -259,8 +272,8 @@ export default function Animals({ role }) {
             <MenuItem value="Dog">Dog</MenuItem>
             <MenuItem value="Cat">Cat</MenuItem>
           </Select>
+          <label>Gender</label>
           <Select
-            label="Gender"
             name="gender"
             fullWidth
             value={newAnimal.gender}
@@ -269,8 +282,8 @@ export default function Animals({ role }) {
             <MenuItem value="Male">Male</MenuItem>
             <MenuItem value="Female">Female</MenuItem>
           </Select>
+          <label>Is this animal vaccinated ?</label>
           <Select
-            label="Vaccinated?"
             name="is_vaccinated"
             fullWidth
             value={newAnimal.is_vaccinated}
@@ -279,8 +292,8 @@ export default function Animals({ role }) {
             <MenuItem value={true}>Yes</MenuItem>
             <MenuItem value={false}>No</MenuItem>
           </Select>
+          <label>Is this animal spayed or neutered ?</label>
           <Select
-            label="Neutered/Spayed?"
             name="is_fixed"
             fullWidth
             value={newAnimal.is_fixed}
@@ -289,8 +302,8 @@ export default function Animals({ role }) {
             <MenuItem value={true}>Yes</MenuItem>
             <MenuItem value={false}>No</MenuItem>
           </Select>
+          <label>Does this animal require special needs?</label>
           <Select
-            label="Special Needs?"
             name="special_needs"
             fullWidth
             value={newAnimal.special_needs}
@@ -299,8 +312,8 @@ export default function Animals({ role }) {
             <MenuItem value={true}>Yes</MenuItem>
             <MenuItem value={false}>No</MenuItem>
           </Select>
+          <label>Upload an image URL</label>
           <TextField
-            label="Image URL"
             name="img_url"
             fullWidth
             onChange={handleInputChange}
